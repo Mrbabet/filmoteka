@@ -1,111 +1,34 @@
 import "../main.js";
 import { refs } from "../main.js";
+import { fetchMovieDetails } from "./api.js";
 
-const genreIDName = [
-  {
-    id: 28,
-    name: "Action",
-  },
-  {
-    id: 12,
-    name: "Adventure",
-  },
-  {
-    id: 16,
-    name: "Animation",
-  },
-  {
-    id: 35,
-    name: "Comedy",
-  },
-  {
-    id: 80,
-    name: "Crime",
-  },
-  {
-    id: 99,
-    name: "Documentary",
-  },
-  {
-    id: 18,
-    name: "Drama",
-  },
-  {
-    id: 10751,
-    name: "Family",
-  },
-  {
-    id: 14,
-    name: "Fantasy",
-  },
-  {
-    id: 36,
-    name: "History",
-  },
-  {
-    id: 27,
-    name: "Horror",
-  },
-  {
-    id: 10402,
-    name: "Music",
-  },
-  {
-    id: 9648,
-    name: "Mystery",
-  },
-  {
-    id: 10749,
-    name: "Romance",
-  },
-  {
-    id: 878,
-    name: "Science Fiction",
-  },
-  {
-    id: 10770,
-    name: "TV Movie",
-  },
-  {
-    id: 53,
-    name: "Thriller",
-  },
-  {
-    id: 10752,
-    name: "War",
-  },
-  {
-    id: 37,
-    name: "Western",
-  },
-];
-
-export const renderMovieCard = function (data) {
-  refs.card.innerHTML = data.results
-    .map(({ id, poster_path, name, title, release_date, genre_ids }) => {
+export const renderMovieCard = async function (data) {
+  const movieCard = await Promise.all(
+    data.results.map(async ({ id, poster_path, name, title, release_date }) => {
+      const genres = await getGenreFromApi(id);
       return `
-    <li class="film__item" id=${id}>
-        <a class="film__item__link">
-        ${getMarkupImgPoster(poster_path, name, title)}
-            <h2>${title}</h2>
-            <p> ${getGenreName(genre_ids)} | ${release_date}</p>
-            <button class="film__trailer-btn" type="button">Trailer<span class="film__trailer-btn">▶</span></button>
-        </a>
-    </li>`;
+        <li class="film-item" id=${id}>
+          <a class="film-item-link">
+            ${getMarkupImgPoster(poster_path, name, title)}
+            <h2 class="title">${title}</h2>
+            <p class="description-short">${genres.join(", ")} | ${getYear(
+        release_date
+      )}</p>
+            <button class="film-trailer-btn" type="button">Trailer<span class="film__trailer-btn"> > </span></button>
+          </a>
+        </li>`;
     })
-    .join("");
+  );
+
+  refs.card.innerHTML = movieCard.join("");
+};
+const getGenreFromApi = async function (id) {
+  const data = await fetchMovieDetails(id);
+  return data.genres.map((genre) => genre.name);
 };
 
-const getGenreName = function (genreIDs) {
-  const newArr = [];
-  genreIDName.map((genreName) => {
-    for (const id of genreIDs) {
-      if (genreName.id === id) {
-        newArr.push(genreName.name);
-      }
-    }
-  });
-  return newArr.join(", ");
+const getYear = function (relesaseDate) {
+  return relesaseDate ? relesaseDate.split("-")[0] : relesaseDate;
 };
 
 function getMovieImgPath(path) {

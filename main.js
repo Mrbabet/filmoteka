@@ -1,7 +1,7 @@
 import "./main.css";
 import "./js/api.js";
 import "./js/movieCard.js";
-import { fetchDefaultMovies } from "./js/api.js";
+import { fetchTrendingMovies } from "./js/api.js";
 import { renderMovieCard } from "./js/movieCard.js";
 
 export const refs = {
@@ -10,6 +10,6 @@ export const refs = {
   card: document.querySelector(".card-holder"),
 };
 
-fetchDefaultMovies().then((data) => {
+fetchTrendingMovies().then((data) => {
   renderMovieCard(data);
 });

@@ -7,25 +7,27 @@
   </head>
   <body>
     <header>
-      <div class="container">
-        <a href="/">Filmoteka</a>
+      <div class="top-bar">
+        <a class="logo" href="/">Filmoteka</a>
         <ul>
-          <li><a href="">Home</a></li>
-          <li><a href="">My library</a></li>
+          <li><a class="link" href="/">Home</a></li>
+          <li><a class="link" href="/my-library.html">My library</a></li>
+          <li class="theme-changer"></li>
         </ul>
-        <div class="theme-changer"></div>
+      </div>
+      <div class="container">
         <form class="header-form" action="">
           <input
             class="home-header-input"
             type="text"
             placeholder="Movie search"
           />
+          <button class="header-input-button" type="submit">Search</button>
         </form>
-        <button class="header-input-button" type="submit">Search</button>
       </div>
     </header>
     <main>
-      <div class="cointainer">
+      <div class="container">
         <ul class="card-holder"></ul>
       </div>
     </main>

@@ -1,0 +1,44 @@
+header {
+  padding: 40px 0px;
+  width: 100%;
+  height: 216px;
+  background-image: url("../pubilc/assets/abstract-background-with-red-lines-tab.ec4e8aa5.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #0000008f;
+}
+
+.logo {
+  text-decoration: none;
+  color: white;
+  font-size: 30px;
+}
+.link {
+  text-decoration: none;
+  color: white;
+}
+.top-bar {
+  padding-inline: 20px;
+  margin-bottom: 60px;
+  display: flex;
+}
+.top-bar ul {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  gap: 40px;
+}
+.header-form {
+  margin: 0 auto;
+  display: flex;
+  width: 280px;
+}
+.home-header-input {
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  padding: 12px 10px;
+  color: #fff;
+
+  border-bottom: 1px solid white;
+}
