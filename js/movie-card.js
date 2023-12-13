@@ -14,7 +14,7 @@ export const renderMovieCard = async function (data) {
             <p class="description-short">${genres.join(", ")} | ${getYear(
         release_date
       )}</p>
-            <button class="film-trailer-btn" type="button">Trailer<span class="film__trailer-btn"> > </span></button>
+            <button id=${id} class="film-trailer-btn" type="button">Trailer<span> > </span></button>
           </a>
         </li>`;
     })

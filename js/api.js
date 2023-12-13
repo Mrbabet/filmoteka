@@ -30,7 +30,7 @@ const fetchMovieDetails = async function (movieID) {
       api_key: API_KEY,
     },
   });
-
+  console.log(res.data);
   return res.data;
 };
 

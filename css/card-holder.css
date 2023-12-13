@@ -7,6 +7,8 @@
 }
 .film-item {
   position: relative;
+  z-index: 1;
+  cursor: pointer;
 }
 .film-trailer-btn {
   position: absolute;
@@ -37,4 +39,11 @@
 .card-holder img {
   border-radius: 5px;
   margin-bottom: 10px;
+}
+
+.trailer-player {
+  border: none;
+  max-width: 90vw;
+  max-height: 50vw;
+  border: none;
 }
