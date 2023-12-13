@@ -1,8 +1,9 @@
 import "./main.css";
 import "./js/api.js";
-import "./js/movieCard.js";
+import "./js/movie-card.js";
+import "./js/trailer-modal.js";
 import { fetchTrendingMovies } from "./js/api.js";
-import { renderMovieCard } from "./js/movieCard.js";
+import { renderMovieCard } from "./js/movie-card.js";
 
 export const refs = {
   body: document.querySelector("body"),

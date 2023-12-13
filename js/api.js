@@ -44,7 +44,8 @@ const fetchOnSearch = async function (searchQuery) {
 
   return res.data;
 };
-const fetchPagination = async function (page, searchQuery = "") {
+
+const fetchPagination = async function (page = 1, searchQuery = "") {
   if (searchQuery !== "") {
     const res = await axios.get(
       `${URL}search/movie?${searchQuery}&page=${page}`,
