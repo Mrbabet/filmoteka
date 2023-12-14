@@ -35,8 +35,10 @@ function getMovieImgPath(path) {
   return `https://www.themoviedb.org/t/p/w500${path}`;
 }
 export function getMarkupImgPoster(poster_path, name, title) {
-  return `
-<img src=" ${getMovieImgPath(poster_path)}" alt="${
-    name || title
-  }" loading="lazy" />`;
+  if (poster_path !== undefined) {
+    return `
+    <img src=" ${getMovieImgPath(poster_path)}" alt="${
+      name || title
+    }" loading="lazy" />`;
+  }
 }

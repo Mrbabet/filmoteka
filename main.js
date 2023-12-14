@@ -2,11 +2,13 @@ import "./main.css";
 import "./js/api.js";
 import "./js/movie-card.js";
 import "./js/trailer-modal.js";
-import { fetchTrendingMovies } from "./js/api.js";
+import "./js/search-movie.js";
+import { fetchOnSearch, fetchTrendingMovies } from "./js/api.js";
 import { renderMovieCard } from "./js/movie-card.js";
 import { renderPlayer } from "./js/trailer-modal.js";
 import { toggleBackdrop } from "./js/backdrop.js";
 import { renderModal } from "./js/details-modal.js";
+import { onSubmit } from "./js/search-movie.js";
 
 export const refs = {
   body: document.querySelector("body"),
@@ -20,8 +22,6 @@ fetchTrendingMovies().then((data) => {
 });
 
 const onCardClick = function (e) {
-  console.log();
-
   if (
     e.target.classList.contains("film-trailer-btn") &&
     e.target.closest("li").id === e.target.id
@@ -34,6 +34,7 @@ const onCardClick = function (e) {
   }
 };
 
+refs.searchForm.addEventListener("submit", onSubmit);
 refs.card.addEventListener("click", onCardClick);
 refs.backdrop.addEventListener("click", (e) => {
   e.target.hasAttribute("data-backdrop") ? toggleBackdrop() : null;
