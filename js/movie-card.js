@@ -24,21 +24,21 @@ export const renderMovieCard = async function (data) {
 };
 const getGenreFromApi = async function (id) {
   const data = await fetchMovieDetails(id);
-  return data.genres.map((genre) => genre.name);
+  const genres = data.genres.map((genre) => genre.name);
+  return Promise.resolve(genres);
 };
 
 const getYear = function (relesaseDate) {
   return relesaseDate ? relesaseDate.split("-")[0] : relesaseDate;
 };
 
-function getMovieImgPath(path) {
-  return `https://www.themoviedb.org/t/p/w500${path}`;
-}
-export function getMarkupImgPoster(poster_path, name, title) {
-  if (poster_path !== undefined) {
+function getMarkupImgPoster(path, title) {
+  if (path === null) {
+    return ` <img class="image-placeholder" src="../pubilc/assets/image-placeholder.svg"  alt="" loading="lazy" />`;
+  }
+
+  if (path !== undefined) {
     return `
-    <img src=" ${getMovieImgPath(poster_path)}" alt="${
-      name || title
-    }" loading="lazy" />`;
+    <img  src="https://www.themoviedb.org/t/p/w500${path}" alt="${title}" loading="lazy" />`;
   }
 }

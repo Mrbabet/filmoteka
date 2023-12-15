@@ -1,6 +1,8 @@
 @import "node_modules/modern-normalize/modern-normalize.css";
 @import "./css/card-holder.css";
 @import "./css/header.css";
+@import "./css/modal.css";
+@import "./css/switch-btn.css";
 
 .container {
   width: 100%;
@@ -26,6 +28,10 @@ p {
 img {
   display: block;
   width: 100%;
+}
+.image-placeholder {
+  width: 500px;
+  height: 750px;
 }
 ul {
   padding: 0;
@@ -53,4 +59,9 @@ ul {
   left: 0;
 
   padding: 20px;
+}
+.type-of-trending {
+  width: 50px;
+  height: 20px;
+  border: 1px solid;
 }

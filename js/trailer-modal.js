@@ -7,6 +7,9 @@ const getTrailerKey = async function (id) {
   const data = await fetchTrailerVideo(id);
   const isOffical = data.results.find((result) => result.official === true);
 
+  if (isOffical === undefined) {
+    return null;
+  }
   if (isOffical.official === true) {
     return isOffical.key;
   }
@@ -14,6 +17,9 @@ const getTrailerKey = async function (id) {
 
 export const renderPlayer = async function (id = "") {
   const trailerKey = await getTrailerKey(id);
+  if (trailerKey === null) {
+    console.log("there is no official trailer for this movie");
+  }
   if (trailerKey) {
     refs.backdrop.innerHTML = `
         <iframe
@@ -25,6 +31,6 @@ export const renderPlayer = async function (id = "") {
           ></iframe
         >
      `;
+    toggleBackdrop();
   }
-  toggleBackdrop();
 };

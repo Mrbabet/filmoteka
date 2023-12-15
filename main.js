@@ -3,7 +3,7 @@ import "./js/api.js";
 import "./js/movie-card.js";
 import "./js/trailer-modal.js";
 import "./js/search-movie.js";
-import { fetchOnSearch, fetchTrendingMovies } from "./js/api.js";
+import { fetchMovieDetails, fetchTrendingMovies } from "./js/api.js";
 import { renderMovieCard } from "./js/movie-card.js";
 import { renderPlayer } from "./js/trailer-modal.js";
 import { toggleBackdrop } from "./js/backdrop.js";
@@ -15,27 +15,51 @@ export const refs = {
   searchForm: document.querySelector(".header-form"),
   card: document.querySelector(".card-holder"),
   backdrop: document.querySelector(".backdrop"),
+  trendingTypeBtn: document.getElementById("trendingTypeBtn"),
 };
 
-fetchTrendingMovies().then((data) => {
-  renderMovieCard(data);
+const renderTrendingMovies = function (type = "week") {
+  if (type === "week") {
+    fetchTrendingMovies(type).then((data) => {
+      renderMovieCard(data);
+    });
+  }
+  if (type === "day") {
+    fetchTrendingMovies(type).then((data) => {
+      renderMovieCard(data);
+    });
+  }
+};
+renderTrendingMovies();
+
+let currentType = "week";
+refs.trendingTypeBtn.innerHTML = currentType;
+
+refs.trendingTypeBtn.addEventListener("click", () => {
+  currentType = currentType === "week" ? "day" : "week";
+  refs.trendingTypeBtn.innerHTML = currentType;
+  renderTrendingMovies(currentType);
 });
 
 const onCardClick = function (e) {
+  let movieId = e.target.closest("li").id;
   if (
     e.target.classList.contains("film-trailer-btn") &&
-    e.target.closest("li").id === e.target.id
+    movieId === e.target.id
   ) {
     return renderPlayer(e.target.id);
   }
 
-  if (e.target.closest("li").id) {
-    return renderModal(e.target.closest("li").id);
+  if (movieId) {
+    return fetchMovieDetails(movieId).then((data) => {
+      renderModal(data);
+    });
   }
 };
 
-refs.searchForm.addEventListener("submit", onSubmit);
 refs.card.addEventListener("click", onCardClick);
+
+refs.searchForm.addEventListener("submit", onSubmit);
 refs.backdrop.addEventListener("click", (e) => {
   e.target.hasAttribute("data-backdrop") ? toggleBackdrop() : null;
 });
