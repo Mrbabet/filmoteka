@@ -34,7 +34,7 @@ const fetchMovieDetails = async function (movieID) {
   return res.data;
 };
 
-const fetchOnSearch = async function (searchQuery = "") {
+const fetchOnSearch = async function (searchQuery) {
   if (searchQuery !== "") {
     const res = await axios.get(`${URL}search/movie`, {
       params: {
@@ -55,22 +55,23 @@ const fetchOnSearch = async function (searchQuery = "") {
   }
 };
 
-const fetchPagination = async function (page = 1, searchQuery = "") {
+const fetchPagination = async function (
+  page = 1,
+  searchQuery = "",
+  type = "week"
+) {
   if (searchQuery !== "") {
-    const res = await axios.get(
-      `${URL}search/movie?${searchQuery}&page=${page}`,
-      {
-        params: {
-          api_key: API_KEY,
-          query: searchQuery,
-          page: page,
-        },
-      }
-    );
+    const res = await axios.get(`${URL}search/movie`, {
+      params: {
+        api_key: API_KEY,
+        query: searchQuery,
+        page: page,
+      },
+    });
 
     return res.data;
   } else {
-    const res = await axios.get(`${URL}trending/movie/week?page=${page}`, {
+    const res = await axios.get(`${URL}trending/movie/${type}`, {
       params: {
         api_key: API_KEY,
         page: page,

@@ -3,6 +3,7 @@
 @import "./css/header.css";
 @import "./css/modal.css";
 @import "./css/switch-btn.css";
+@import "./css/pagination.css";
 
 .container {
   width: 100%;
@@ -30,8 +31,11 @@ img {
   width: 100%;
 }
 .image-placeholder {
-  width: 500px;
-  height: 750px;
+  aspect-ratio: 1/1.5;
+  height: 100%;
+  width: 100%;
+  max-width: 750px;
+  max-height: 500px;
 }
 ul {
   padding: 0;
