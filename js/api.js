@@ -3,7 +3,7 @@ import axios from "axios";
 const URL = "https://api.themoviedb.org/3/";
 const API_KEY = "f38e9284b51d1fffd633993a0543994f";
 
-const fetchTrendingMovies = async function (type) {
+const fetchTrendingMovies = async function (type = "week") {
   const res = await axios.get(`${URL}trending/movie/${type}`, {
     params: {
       api_key: API_KEY,
@@ -55,11 +55,7 @@ const fetchOnSearch = async function (searchQuery) {
   }
 };
 
-const fetchPagination = async function (
-  page = 1,
-  searchQuery = "",
-  type = "week"
-) {
+const fetchPagination = async function (page = 1, searchQuery = "") {
   if (searchQuery !== "") {
     const res = await axios.get(`${URL}search/movie`, {
       params: {
@@ -71,7 +67,7 @@ const fetchPagination = async function (
 
     return res.data;
   } else {
-    const res = await axios.get(`${URL}trending/movie/${type}`, {
+    const res = await axios.get(`${URL}trending/movie/week`, {
       params: {
         api_key: API_KEY,
         page: page,

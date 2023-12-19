@@ -1,35 +1,39 @@
-import { refs } from "../main";
 import { fetchPagination } from "./api";
 import { renderMovieCard } from "./movie-card";
-
-const pagination = document.querySelector(".pagination-container");
+const nextBtn = document.querySelector(".pagination-next-btn");
+const prevBtn = document.querySelector(".pagination-prev-btn");
+const pagination = document.querySelector(".pagination-list-container");
 const pagesToShow = 5;
+let currentPage;
+let totalPages;
+let currentQuery = ""; // Keep track of the current search query
 
-export const getPagination = async function (page = 1, query = "", type) {
-  fetchPagination(page, query, type).then((data) => {
-    console.log(data.results);
-    let currentPage = data.page;
-    let totalPages = data.total_pages;
+export const getPagination = async function (page = 1, query = "") {
+  // Remove existing event listeners before setting up new ones
+  nextBtn.removeEventListener("click", onNextClick);
+  prevBtn.removeEventListener("click", onPrevClick);
 
-    renderMovieCard(data);
-    renderPaginationContainer();
-    renderList(currentPage, totalPages, query);
-  });
+  const data = await fetchPagination(page, query);
+
+  currentPage = data.page;
+  totalPages = data.total_pages;
+  currentQuery = query; // Update the current search query
+
+  renderMovieCard(data);
+  renderPaginationContainer();
+  renderList(currentPage, totalPages, query);
+
+  // Set up new event listeners
+  nextBtn.addEventListener("click", onNextClick);
+  prevBtn.addEventListener("click", onPrevClick);
+
+  console.log(currentPage, totalPages);
 };
 
 const renderPaginationContainer = function () {
-  pagination.innerHTML = `<button class="pagination__left-btn on" type="button" >
-      <svg>
-      <path d="M12.586 27.414l-10-10c-0.781-0.781-0.781-2.047 0-2.828l10-10c0.781-0.781 2.047-0.781 2.828 0s0.781 2.047 0 2.828l-6.586 6.586h19.172c1.105 0 2 0.895 2 2s-0.895 2-2 2h-19.172l6.586 6.586c0.39 0.39 0.586 0.902 0.586 1.414s-0.195 1.024-0.586 1.414c-0.781 0.781-2.047 0.781-2.828 0z"></path>
-    </svg>
-    </button>
-    <ul class="pagination__list"></ul>
-    <button class="pagination__right-btn on" type="button" >
-      <svg>
-        <path d="M19.414 27.414l10-10c0.781-0.781 0.781-2.047 0-2.828l-10-10c-0.781-0.781-2.047-0.781-2.828 0s-0.781 2.047 0 2.828l6.586 6.586h-19.172c-1.105 0-2 0.895-2 2s0.895 2 2 2h19.172l-6.586 6.586c-0.39 0.39-0.586 0.902-0.586 1.414s0.195 1.024 0.586 1.414c0.781 0.781 2.047 0.781 2.828 0z"></path>
-      </svg>
-    </button>`;
+  pagination.innerHTML = `<ul class="pagination__list"></ul>`;
 };
+
 const renderList = function (currentPage, totalPages, query) {
   const paginationList = document.querySelector(".pagination__list");
   paginationList.innerHTML = "";
@@ -49,14 +53,26 @@ const renderList = function (currentPage, totalPages, query) {
   }
 };
 
-export const nextPage = function (currentPage, totalPages, query) {
+const onNextClick = function () {
+  nextPage(currentPage, currentQuery);
+};
+
+const onPrevClick = function () {
+  prevPage(currentPage, currentQuery);
+};
+
+const nextPage = function (currentPage, query) {
   if (currentPage < totalPages) {
     getPagination(currentPage + 1, query);
   }
 };
 
-export const prevPage = function (currentPage, query) {
+const prevPage = function (currentPage, query) {
   if (currentPage > 1) {
     getPagination(currentPage - 1, query);
   }
 };
+
+// Initial setup of event listeners
+nextBtn.addEventListener("click", onNextClick);
+prevBtn.addEventListener("click", onPrevClick);

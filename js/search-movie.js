@@ -1,16 +1,21 @@
 import { fetchOnSearch } from "./api";
-import { renderMovieCard } from "./movie-card";
 import { getPagination } from "./pagination";
 
-let searchQuery = null;
-export const onSubmit = function (e) {
+let searchQuery = "";
+
+export const onSubmit = async function (e) {
   e.preventDefault();
+  setQuery(e.target.elements[0].value);
 
-  searchQuery = e.target.elements[0].value;
+  const data = await fetchOnSearch(getQuery());
+  getPagination(data.page, getQuery());
 
-  fetchOnSearch(searchQuery).then((data) => {
-    renderMovieCard(data);
-    getPagination(1, searchQuery);
-  });
   e.target.reset();
+};
+const getQuery = function () {
+  return searchQuery;
+};
+
+const setQuery = function (newQuery) {
+  return (searchQuery = newQuery);
 };
